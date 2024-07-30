@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header>
+        <img src="../src/assets/logo.svg" alt="logo">
+        <h1>Todo List</h1>
+    </header>
+    <div class="main">
+        <div class="sidebar">
+            <button>
+                <img src="../src/assets/home.svg" alt="home">
+                Home
+            </button>
+            <button>
+                <img src="../src/assets/today.svg" alt="Today">
+                Today
+            </button>
+            <button>
+                <img src="../src/assets/week.svg" alt="This Week">
+                This Week
+            </button>
+            <p>Projects</p>
+            <div class="projects">
+                <button id="add-project">
+                    <img src="../src/assets/plus.svg" alt="Add">
+                    <p>Add Project</p>
+                </button>
+            </div>
+        </div>
+        <div class="content">
+        </div>
+    </div>
+
+    <dialog id="project-dialog">
+      <form id="project-form"action="post">
+        <p>Add New Project</p>
+        <input type="text" placeholder="Project Name" id="project-name" required>
+        <button id="submit" type="submit">Submit</button required>
+      </form>
+    </dialog>
+</body>
+</html>
