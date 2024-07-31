@@ -124,6 +124,11 @@ button  img{
     filter: brightness(90%);
 }
 
+.selected {
+    background-color: #e0e0e0; 
+    border-radius: 12px;
+}
+
 .project .x-img {
     display: none;
 }

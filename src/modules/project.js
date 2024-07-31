@@ -65,7 +65,17 @@ function createProjectButton(name){
     xImg.classList.add("x-img");
     p.textContent = name;
 
-    xImg.addEventListener('click', () => projectBtn.remove());
+    xImg.addEventListener('click', () => {
+        manager.removeProject(name);
+        projectBtn.remove()
+    });
+
+    projectBtn.addEventListener('click', () => {
+        title.textContent = `${name} Todo's`;
+        clearTaskContainer();
+        const pName = manager.getProject(name);
+        taskBuilder.buildAllTasksFromProject(pName);
+    })
 
     leftDiv.appendChild(listImg);
     leftDiv.appendChild(p);
@@ -76,7 +86,7 @@ function createProjectButton(name){
     return projectBtn;
 }
 
-function addProject(name){
+function addProjectButton(name){
     const projectsDiv = document.querySelector(".projects");
     const addProjectButton = document.getElementById("add-project");
     const newProject = createProjectButton(name);
@@ -124,9 +134,20 @@ function createTaskButton(task){
         box.classList.toggle('checked');
         title.classList.toggle("crossed");
         taskButton.classList.toggle("done");
+        task.toggleComplete();
     });
 
-    del.addEventListener('click', () => taskButton.remove());
+    if(task.isCompleted){
+        box.classList.toggle('checked');
+        title.classList.toggle("crossed");
+        taskButton.classList.toggle("done");
+    }
+
+    del.addEventListener('click', () => {
+        const project = manager.getProject(task.project);
+        project.removeTask(task);
+        taskButton.remove();
+    });
 
     leftDiv.appendChild(box);
     leftDiv.appendChild(title);
@@ -141,7 +162,7 @@ function createTaskButton(task){
     return taskButton;
 }
 
-function addTask(task){
+function addTaskButton(task){
     const taskDiv = document.querySelector(".tasks");
     const newTask = createTaskButton(task);
     taskDiv.appendChild(newTask)
@@ -209,28 +230,37 @@ class projectManager {
 
 class taskBuilder {
     static buildTask(task){
-        addTask(task);
+        addTaskButton(task);
     }
 
-    static buildAllTasks(project){
-        project.getAllTask().forEach(task => addTask(task));
+    static buildAllTasksFromProject(project){
+        project.getAllTask().forEach(task => this.buildTask(task));
     }
+
+    static buildAllTasks(tasks){
+        tasks.forEach(task => this.buildTask(task));
+    }
+
 }
 
 
 class projectBuilder {
     static buildProject(project){
-        addProject(project.name)
+        addProjectButton(project.name)
     }
 
-    static buildAllProjects(projectManager){
-        projectManager.getAllProject().forEach(project => addProject(project.name));
+    static buildAllProjectsFromManager(manager){
+        manager.getAllProject().forEach(project => this.buildProject(project.name));
     }
 }
 
 
 // UI LOGIC
 
+const home = document.getElementById("home");
+const today = document.getElementById("today");
+const week = document.getElementById("week");
+const title = document.getElementById("content-title");
 const addNewProject = document.getElementById("add-project");
 const addNewTask = document.getElementById("add-button");
 const projectDialog = document.getElementById("project-dialog");
@@ -284,13 +314,78 @@ taskForm.addEventListener("submit", (e) => {
     addToProject.addTask(newTask);
     taskBuilder.buildTask(newTask);
     
-    //clear
     document.getElementById("task-name").value = '';
     document.getElementById("task-desc").value = '';
     document.querySelector('input[name="priority"]:checked').checked = false;
     document.getElementById("task-date").value = '';
     document.getElementById("task-projects").value = '';
 });
+
+function getTasksWithinDays(days) {
+    const currentDay = new Date();
+    const futureDate = new Date();
+    futureDate.setDate(currentDay.getDate() + days);
+
+    currentDay.setHours(0, 0, 0, 0); 
+    futureDate.setHours(23, 59, 59, 999); 
+
+    const allTasks = [];
+    const allProjects = manager.getAllProjects();
+    allProjects.forEach(project => {
+        allTasks.push(...project.getAllTask());
+    });
+
+    return allTasks.filter(task => {
+        const taskDate = new Date(task.date);
+        taskDate.setHours(0, 0, 0, 0);
+        return taskDate >= currentDay && taskDate <= futureDate;
+    });
+}
+
+function deselectAllButtons() {
+    home.classList.remove('selected');
+    today.classList.remove('selected');
+    week.classList.remove('selected');
+}
+
+
+function clearTaskContainer() {
+    const taskDiv = document.querySelector(".tasks");
+    taskDiv.innerHTML = '';
+}
+
+home.addEventListener('click', () => {
+    title.textContent = "Home Todo's";
+    deselectAllButtons();
+    home.classList.add('selected');
+    clearTaskContainer();
+    const allProjects = manager.getAllProjects();
+    allProjects.forEach(project => {
+        taskBuilder.buildAllTasksFromProject(project);
+    });
+});
+
+today.addEventListener('click', () => {
+    title.textContent = "Today Todo's";
+    deselectAllButtons();
+    today.classList.add('selected');
+    clearTaskContainer();
+    const todayTasks = getTasksWithinDays(0);
+    console.log(todayTasks);
+    taskBuilder.buildAllTasks(todayTasks);
+});
+
+week.addEventListener('click', () => {
+    title.textContent = "This Week Todo's";
+    deselectAllButtons();
+    week.classList.add('selected');
+    clearTaskContainer();
+    const weekTasks = getTasksWithinDays(7);
+    taskBuilder.buildAllTasks(weekTasks);
+});
+
+
+
 
 
 
