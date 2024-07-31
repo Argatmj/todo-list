@@ -41,12 +41,20 @@ function showTaskInfo(task){
     infoDialog.showModal();
 }
 
-function showTaskEdit(task){
+function showTaskEdit(task) {
     const editDialog = document.querySelector("#task-dialog");
-    //editDialog.textContent = '';
+
+    document.getElementById("task-name").value = task.title;
+    document.getElementById("task-desc").value = task.description;
+    document.querySelector(`input[name="priority"][value="${task.priority}"]`).checked = true;
+    document.getElementById("task-date").value = task.date;
+    document.getElementById("task-projects").value = task.project;
+
+    document.getElementById("add-form").dataset.taskId = task.id;
 
     editDialog.showModal();
 }
+
 
 
 function createProjectButton(name){
@@ -106,6 +114,8 @@ function createTaskButton(task){
     const edit = document.createElement("img");
     const del = document.createElement("img");
 
+    taskButton.id = `task-${task.id}`; 
+
     info.src = './assets/info.svg';
     edit.src = './assets/edit.svg';
     del.src = './assets/trash.svg';
@@ -128,7 +138,7 @@ function createTaskButton(task){
 
     info.addEventListener('click', () => showTaskInfo(task));
 
-    // edit.addEventListener('click', () => showTaskEdit(task));
+    edit.addEventListener('click', () => showTaskEdit(task));
 
     box.addEventListener('click', () => {
         box.classList.toggle('checked');
@@ -169,8 +179,10 @@ function addTaskButton(task){
 }
 
 class task {
+    static id = 1;
 
     constructor(title,description,date,priority,project){
+        this.id = task.id++;
         this.title = title;
         this.description = description;
         this.date = date;
@@ -309,10 +321,35 @@ taskForm.addEventListener("submit", (e) => {
     const date = document.getElementById("task-date").value;
     const project = document.getElementById("task-projects").value;
 
-    const newTask = new task(name,desc,date,priority,project);    
-    const addToProject = manager.getProject(project);
-    addToProject.addTask(newTask);
-    taskBuilder.buildTask(newTask);
+    const taskId = document.getElementById("add-form").dataset.taskId;
+
+    if (taskId) {
+        const taskToUpdate = manager.getAllProjects().flatMap(project => project.getAllTask()).find(task => task.id === parseInt(taskId));
+        taskToUpdate.title = name;
+        taskToUpdate.description = desc;
+        taskToUpdate.priority = priority;
+        taskToUpdate.date = date;
+        taskToUpdate.project = project;
+        
+        const taskButton = document.getElementById(`task-${taskId}`);
+
+        taskButton.querySelector('.task-left div:nth-child(2)').textContent = name;
+        taskButton.querySelector('.task-right div:nth-child(1)').textContent = date;
+        
+        taskButton.className = 'task';
+        if (priority === 'High') {
+            taskButton.classList.add("priority-high");
+        } else if (priority === 'Medium') {
+            taskButton.classList.add("priority-medium");
+        } else {
+            taskButton.classList.add("priority-low");
+        }
+    } else {
+        const newTask = new task(name, desc, date, priority, project);    
+        const addToProject = manager.getProject(project);
+        addToProject.addTask(newTask);
+        taskBuilder.buildTask(newTask);
+    }
     
     document.getElementById("task-name").value = '';
     document.getElementById("task-desc").value = '';
@@ -355,7 +392,7 @@ function clearTaskContainer() {
 }
 
 home.addEventListener('click', () => {
-    title.textContent = "Home Todo's";
+    title.textContent = "Todo's";
     deselectAllButtons();
     home.classList.add('selected');
     clearTaskContainer();
