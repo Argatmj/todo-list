@@ -1,3 +1,54 @@
+function showTaskInfo(task){
+    const infoDialog = document.querySelector("#info-dialog");
+    infoDialog.textContent = '';
+
+    const topDiv = document.createElement("div");
+    const titleDiv = document.createElement("div");
+    const projectDiv = document.createElement("div");
+    const descDiv = document.createElement("div");
+    const prioDiv = document.createElement("div");
+    const dateDiv = document.createElement("div");
+    const del = document.createElement("img");
+
+    del.src = './assets/x.svg';
+
+    titleDiv.classList.add("title")
+    topDiv.classList.add("top");
+    projectDiv.classList.add("infos");
+    descDiv.classList.add("infos");
+    prioDiv.classList.add("infos");
+    dateDiv.classList.add("infos");
+
+    titleDiv.textContent = task.title 
+    projectDiv.textContent = `Project: ${task.project}`
+    descDiv.textContent = `Description: ${task.description}`
+    prioDiv.textContent = `Priority: ${task.priority}`
+    dateDiv.textContent = `Due Date: ${task.date}`
+
+    topDiv.appendChild(titleDiv);
+    topDiv.appendChild(del);
+
+    infoDialog.appendChild(topDiv);
+    infoDialog.appendChild(projectDiv);
+    infoDialog.appendChild(descDiv);
+    infoDialog.appendChild(prioDiv);
+    infoDialog.appendChild(dateDiv);
+
+    del.addEventListener('click', () => {
+        infoDialog.close();
+    });
+
+    infoDialog.showModal();
+}
+
+function showTaskEdit(task){
+    const editDialog = document.querySelector("#task-dialog");
+    //editDialog.textContent = '';
+
+    editDialog.showModal();
+}
+
+
 function createProjectButton(name){
     const projectBtn = document.createElement("button");
     const leftDiv = document.createElement("div");
@@ -33,6 +84,7 @@ function addProject(name){
     projectsDiv.insertBefore(newProject, addProjectButton);
 }
 
+
 function createTaskButton(task){
     const taskButton = document.createElement("button");
     const leftDiv = document.createElement("div");
@@ -64,11 +116,17 @@ function createTaskButton(task){
         taskButton.classList.add("priority-low");
     }
 
+    info.addEventListener('click', () => showTaskInfo(task));
+
+    // edit.addEventListener('click', () => showTaskEdit(task));
+
     box.addEventListener('click', () => {
         box.classList.toggle('checked');
         title.classList.toggle("crossed");
         taskButton.classList.toggle("done");
     });
+
+    del.addEventListener('click', () => taskButton.remove());
 
     leftDiv.appendChild(box);
     leftDiv.appendChild(title);
@@ -91,12 +149,13 @@ function addTask(task){
 
 class task {
 
-    constructor(title,description,dueData,priority){
+    constructor(title,description,date,priority,project){
         this.title = title;
         this.description = description;
-        this.dueData = dueData;
+        this.date = date;
         this.priority = priority;
         this.isCompleted = false;
+        this.project = project
     }
 
     toggleComplete() {
@@ -136,14 +195,14 @@ class projectManager {
     }
 
     getProject(name){
-        return this.projects.filter(item => item.name === name );
+        return this.projects.find(item => item.name === name);
     }
 
     removeProject(name){
         this.projects = this.projects.filter(item => item.name !== name )
     }
 
-    getAllProject(){
+    getAllProjects(){
         return this.projects;
     }
 }
@@ -169,19 +228,70 @@ class projectBuilder {
     }
 }
 
-const taskOne = new task("Go Gym","gym","12/1/22","High");
-const taskTwo = new task("Go Sleep","sleep","12/1/22","Medium");
 
-const projectOne = new project("new Project");
-projectOne.addTask(taskOne);
-projectOne.addTask(taskTwo);
+// UI LOGIC
 
+const addNewProject = document.getElementById("add-project");
+const addNewTask = document.getElementById("add-button");
+const projectDialog = document.getElementById("project-dialog");
+const projectForm = document.getElementById("project-form");
+const taskDialog = document.getElementById("task-dialog");
+const projectSelect = document.getElementById("task-projects");
+const taskForm = document.getElementById("add-form");
 const manager = new projectManager();
-manager.addProject(projectOne);
 
+addNewProject.addEventListener("click", () => projectDialog.showModal());
+document.getElementById("close-task-dialog").addEventListener("click", () => taskDialog.close());
 
-projectBuilder.buildAllProjects(manager);
-taskBuilder.buildAllTasks(projectOne);
+function populateProjectDropdown() {
+    const projects = manager.getAllProjects();
+    projectSelect.innerHTML = '<option value="">Select Project</option>';
+    projects.forEach(project => {
+        const option = document.createElement("option");
+        option.value = project.name;
+        option.textContent = project.name;
+        projectSelect.appendChild(option);
+    });
+}
+
+projectForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    projectDialog.close();
+    const projectName = document.getElementById("project-name").value;
+    const newProject = new project(projectName);
+    manager.addProject(newProject);
+    projectBuilder.buildProject(newProject);
+    document.getElementById("project-name").value = '';
+});
+
+addNewTask.addEventListener("click", () => {
+    populateProjectDropdown();
+    taskDialog.showModal();
+});
+
+taskForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    taskDialog.close();
+
+    const name = document.getElementById("task-name").value;
+    const desc = document.getElementById("task-desc").value;
+    const priority = document.querySelector('input[name="priority"]:checked').value;
+    const date = document.getElementById("task-date").value;
+    const project = document.getElementById("task-projects").value;
+
+    const newTask = new task(name,desc,date,priority,project);    
+    const addToProject = manager.getProject(project);
+    addToProject.addTask(newTask);
+    taskBuilder.buildTask(newTask);
+    
+    //clear
+    document.getElementById("task-name").value = '';
+    document.getElementById("task-desc").value = '';
+    document.querySelector('input[name="priority"]:checked').checked = false;
+    document.getElementById("task-date").value = '';
+    document.getElementById("task-projects").value = '';
+});
+
 
 
 

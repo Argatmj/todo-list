@@ -7,8 +7,14 @@
 </head>
 <body>
     <header>
-        <img src="../src/assets/logo.svg" alt="logo">
-        <h1>Todo List</h1>
+        <div class="logo">
+            <img src="../src/assets/logo.svg" alt="logo">
+            <h1>Todo List</h1>
+        </div>
+            <button id="add-button">
+                <img src="./assets/add.svg" alt="add">
+                Add Task
+            </button>
     </header>
     <div class="main">
         <div class="sidebar">
@@ -38,30 +44,6 @@
             </div>
             <hr>
             <div class="tasks">
-                <button class="task priority-high done">
-                    <div class="task-left">
-                        <div class="task-box checked"></div>
-                        <div class="task-title crossed"> Go to the Gym</div>
-                    </div>
-                    <div class="task-right">
-                        <div class="task-date">12/1/22</div>
-                        <img src="assets/info.svg" alt="info">
-                        <img src="assets/edit.svg" alt="edit">
-                        <img src="assets/trash.svg" alt="delete">
-                    </div>
-                </button>
-                <button class="task priority-low">
-                    <div class="task-left">
-                        <div class="task-box "></div>
-                        <div class="task-title"> Go to the Gym</div>
-                    </div>
-                    <div class="task-right">
-                        <div class="task-date">12/1/22</div>
-                        <img src="assets/info.svg" alt="info">
-                        <img src="assets/edit.svg" alt="edit">
-                        <img src="assets/trash.svg" alt="delete">
-                    </div>
-                </button>
             </div>
         </div>
     </div>
@@ -73,6 +55,38 @@
         <button id="submit" type="submit">Submit</button required>
       </form>
     </dialog>
+
+    <dialog id="info-dialog">
+    </dialog>
+
+    <dialog id="task-dialog">
+        <form id="add-form" action="post">
+            <p class="dialog-title">Add New Task</p>
+            <input type="text" placeholder="Task Name" id="task-name" required>
+            <input type="text" placeholder="Description" id="task-desc" required>
+            
+            <div class="priority-group" >
+                <p>Priority:</p>
+                <label>
+                    <input type="radio" name="priority" value="High" required> High
+                </label>
+                <label>
+                    <input type="radio" name="priority" value="Medium"> Medium
+                </label>
+                <label>
+                    <input type="radio" name="priority" value="Low"> Low
+                </label>
+            </div>
+            
+            <input type="date" id="task-date" required>
+            
+            <select id="task-projects" required>
+            </select>
+            
+            <button id="add" type="submit">Add</button>
+            <button type="button" id="close-task-dialog">Cancel</button>
+        </form>
+
     <script src="modules/project.js"></script>
 </body>
 </html>
