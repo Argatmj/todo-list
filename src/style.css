@@ -1,6 +1,9 @@
 :root{
     --bg-clr: #5E6572;
     --ops-clr: #EEF1EF;
+    --red-clr: #ef4444;
+    --orange-clr: #f97316;
+    --green-clr: #22c55e;
     --border: 2px solid black;
 }
 
@@ -96,8 +99,16 @@ button  img{
     height: 25px;
 }
 
-button:hover{
+.sidebar button:hover{
     filter: brightness(90%);
+}
+
+.project .x-img {
+    display: none;
+}
+
+.project:hover .x-img {
+    display: inline;
 }
 
 /* Project Dialog */
@@ -141,8 +152,80 @@ form{
 
 /* Content */
 .content{
-    padding: 20px 120px;
+    padding: 20px 200px;
 }
+
+#content-title{
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.tasks{
+    display: flex;
+    flex-direction: column;
+    padding: 12px 2px;
+    gap:8px;
+}
+
+.tasks button:hover{
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.task{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task img:hover{
+    border-radius: 8px;
+    filter: brightness(0) invert(1);
+}
+
+.priority-high{
+    border-left: 12px var(--red-clr) solid;
+}
+
+.priority-medium{
+    border-left: 12px var(--orange-clr) solid;
+}
+
+.priority-low{
+    border-left: 12px var(--green-clr) solid;
+}
+
+.task-left, .task-right{
+    display: flex;
+    gap:12px;
+    align-items: center;
+}
+
+.task-right{
+    gap: 10px;
+}
+
+.task-box{
+    width: 18px;
+    height: 18px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+.done{
+    filter: brightness(90%);
+}
+
+.checked{
+    background-image: url(./assets/checked.svg);
+    background-size: cover;
+    background-position: center; 
+}
+
+.crossed {
+    text-decoration: line-through; 
+}
+
 
 
 
