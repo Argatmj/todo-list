@@ -42,9 +42,9 @@ class projectManager {
   }
 
   loadFromLocalStorage() {
-    const data = JSON.parse(localStorage.getItem('projects'));
-    if (data) {
-      this.projects = data.map(projectData => {
+    const localStorageData = localStorage.getItem('projects');
+    if (localStorageData) {
+      this.projects = JSON.parse(localStorageData).map(projectData => {
         const newProject = new project(projectData.name);
         projectData.tasks.forEach(taskData => {
           const newTask = new task(
@@ -60,6 +60,29 @@ class projectManager {
         });
         return newProject;
       });
+    } else {
+      fetch('tasks.json')
+        .then(response => response.json())
+        .then(data => {
+          this.projects = data.map(projectData => {
+            const newProject = new project(projectData.name);
+            projectData.tasks.forEach(taskData => {
+              const newTask = new task(
+                taskData.title,
+                taskData.description,
+                taskData.date,
+                taskData.priority,
+                taskData.project
+              );
+              newTask.id = taskData.id;
+              newTask.isCompleted = taskData.isCompleted;
+              newProject.addTask(newTask);
+            });
+            return newProject;
+          });
+          localStorage.setItem('projects', JSON.stringify(this.projects));
+        })
+        .catch(error => console.error('Error loading tasks:', error));
     }
   }
 }
