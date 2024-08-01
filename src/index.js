@@ -4,6 +4,7 @@ import x from "./assets/x.svg";
 import infoImg from "./assets/info.svg";
 import editImg from "./assets/edit.svg";
 import delImg from "./assets/trash.svg";
+import { format } from 'date-fns';
 import { task, showTaskEdit, showTaskInfo } from "./modules/task";
 import { project } from "./modules/project";
 import { projectManager } from "./modules/projectManager";
@@ -255,7 +256,10 @@ function createTaskButton(task) {
   box.classList.add("task-box");
 
   title.textContent = task.title;
-  date.textContent = task.date;
+  const taskDateString = task.date; 
+  const taskDate = new Date(taskDateString);
+  const formattedDate = format(taskDate, 'do MMMM yyyy');
+  date.textContent = formattedDate;
 
   if (task.priority === "High") {
     taskButton.classList.add("priority-high");

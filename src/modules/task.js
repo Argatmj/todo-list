@@ -1,4 +1,5 @@
 import x from "../assets/x.svg"
+import { format } from 'date-fns';
 
 class task {
     static id = 1;
@@ -42,8 +43,12 @@ function showTaskInfo(task){
     titleDiv.textContent = task.title 
     projectDiv.textContent = `Project: ${task.project}`
     descDiv.textContent = `Description: ${task.description}`
-    prioDiv.textContent = `Priority: ${task.priority}`
-    dateDiv.textContent = `Due Date: ${task.date}`
+    prioDiv.textContent = `Priority: ${task.priority}`;
+    
+    const taskDateString = task.date; 
+    const taskDate = new Date(taskDateString);
+    const formattedDate = format(taskDate,'do MMMM yyyy');
+    dateDiv.textContent = `Due Date: ${formattedDate}`;
 
     topDiv.appendChild(titleDiv);
     topDiv.appendChild(del);
