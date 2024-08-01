@@ -16,7 +16,7 @@
 
 html, body {
     height: 100%;
-    font-size: 16px;
+    font-size: 16px; 
 }
 
 body{
@@ -198,9 +198,38 @@ dialog{
 .tasks{
     display: flex;
     flex-direction: column;
-    padding: 12px 2px;
-    gap:8px;
+    padding: 8px 14px;
+    gap:8px; 
+    max-height: 655px;
+    overflow-y: auto;
+    margin-top: 16px;
 }
+
+.projects{
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+
+.tasks::-webkit-scrollbar,
+.projects::-webkit-scrollbar {
+    width: 12px; 
+}
+
+.tasks::-webkit-scrollbar-track{
+    background: white; 
+}
+
+.projects::-webkit-scrollbar-track{
+    background: var(--ops-clr);
+}
+
+.projects::-webkit-scrollbar-thumb {
+    background-color: var(--bg-clr); 
+    border-radius: 20px;
+    border: 3px solid var(--ops-clr); 
+}
+
 
 .tasks button:hover{
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);

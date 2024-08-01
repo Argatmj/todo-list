@@ -227,10 +227,9 @@ function createProjectButton(name) {
 
 function addProjectButton(name) {
   const projectsDiv = document.querySelector(".projects");
-  const addProjectButton = document.getElementById("add-project");
   const newProject = createProjectButton(name);
 
-  projectsDiv.insertBefore(newProject, addProjectButton);
+  projectsDiv.appendChild(newProject);
 }
 
 function createTaskButton(task) {
