@@ -52,10 +52,10 @@ class projectManager {
             taskData.description,
             taskData.date,
             taskData.priority,
-            taskData.project,
-            taskData.isCompleted
+            taskData.project
           );
           newTask.id = taskData.id;
+          newTask.isCompleted = taskData.isCompleted;
           newProject.addTask(newTask);
         });
         return newProject;

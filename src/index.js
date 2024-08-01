@@ -24,6 +24,12 @@ const manager = new projectManager();
 document.addEventListener("DOMContentLoaded", () => {
   manager.loadFromLocalStorage();
   projectBuilder.buildAllProjectsFromManager(manager);
+  homePage();
+});
+
+function homePage() {
+  title.textContent = "Todo's";
+  deselectAllButtons();
   home.classList.add("selected");
   clearTaskContainer();
   populateProjectDropdown();
@@ -31,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   allProjects.forEach((project) => {
     taskBuilder.buildAllTasksFromProject(project);
   });
-});
+}
 
 addNewProject.addEventListener("click", () => projectDialog.showModal());
 document
@@ -154,14 +160,7 @@ function clearTaskContainer() {
 }
 
 home.addEventListener("click", () => {
-  title.textContent = "Todo's";
-  deselectAllButtons();
-  home.classList.add("selected");
-  clearTaskContainer();
-  const allProjects = manager.getAllProjects();
-  allProjects.forEach((project) => {
-    taskBuilder.buildAllTasksFromProject(project);
-  });
+  homePage();
 });
 
 today.addEventListener("click", () => {
@@ -209,7 +208,11 @@ function createProjectButton(name) {
     clearTaskContainer();
     deselectAllButtons();
     const pName = manager.getProject(name);
+    if(pName){
     taskBuilder.buildAllTasksFromProject(pName);
+    }else{
+      homePage();
+    }
   });
 
   leftDiv.appendChild(listImg);
