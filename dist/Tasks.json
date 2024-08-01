@@ -1,0 +1,130 @@
+[
+    {
+        "name": "Kitchen Renovation",
+        "tasks": [
+            {
+                "id": 30,
+                "title": "Select Materials",
+                "description": "Choose countertops and cabinets",
+                "date": "2024-08-04",
+                "priority": "Low",
+                "project": "Kitchen Renovation",
+                "isCompleted": false
+            },
+            {
+                "id": 31,
+                "title": "Research Design Ideas",
+                "description": "Create a Pinterest board for inspiration",
+                "date": "2024-08-15",
+                "priority": "Medium",
+                "project": "Kitchen Renovation",
+                "isCompleted": true
+            },
+            {
+                "id": 34,
+                "title": "Hire Contractors",
+                "description": "Get quotes from contractors",
+                "date": "2024-08-01",
+                "priority": "Medium",
+                "project": "Kitchen Renovation",
+                "isCompleted": false
+            }
+        ]
+    },
+    {
+        "name": "Fitness",
+        "tasks": [
+            {
+                "id": 32,
+                "title": "Create Workout Plan",
+                "description": "Design a weekly workout schedule",
+                "date": "2024-08-10",
+                "priority": "Medium",
+                "project": "Fitness",
+                "isCompleted": true
+            },
+            {
+                "id": 33,
+                "title": "Join a Fitness Class",
+                "description": "Sign up for classes (e.g., yoga, spinning)",
+                "date": "2024-08-12",
+                "priority": "Low",
+                "project": "Fitness",
+                "isCompleted": false
+            },
+            {
+                "id": 35,
+                "title": "Nutrition and Diet",
+                "description": "Track daily calorie intake and nutrients",
+                "date": "2024-08-01",
+                "priority": "Low",
+                "project": "Fitness",
+                "isCompleted": false
+            }
+        ]
+    },
+    {
+        "name": "Homework",
+        "tasks": [
+            {
+                "id": 36,
+                "title": "Write French Essay",
+                "description": "Draft essay on given topic",
+                "date": "2024-08-08",
+                "priority": "Medium",
+                "project": "Homework",
+                "isCompleted": false
+            },
+            {
+                "id": 37,
+                "title": "Code Review and Debugging",
+                "description": "Review and debug todo-list project",
+                "date": "2024-08-01",
+                "priority": "High",
+                "project": "Homework",
+                "isCompleted": true
+            },
+            {
+                "id": 38,
+                "title": "Internships",
+                "description": "Look for Internships on the web",
+                "date": "2024-08-01",
+                "priority": "High",
+                "project": "Homework",
+                "isCompleted": false
+            }
+        ]
+    },
+    {
+        "name": "Birthday Party",
+        "tasks": [
+            {
+                "id": 27,
+                "title": "Set a Budget",
+                "description": "Determine overall budget for the event",
+                "date": "2024-08-11",
+                "priority": "High",
+                "project": "Birthday Party",
+                "isCompleted": true
+            },
+            {
+                "id": 28,
+                "title": "Select Venue",
+                "description": "Research and visit potential venues",
+                "date": "2024-08-06",
+                "priority": "High",
+                "project": "Birthday Party",
+                "isCompleted": false
+            },
+            {
+                "id": 29,
+                "title": "Send Invitations",
+                "description": "Create and send invitations",
+                "date": "2024-08-09",
+                "priority": "Medium",
+                "project": "Birthday Party",
+                "isCompleted": true
+            }
+        ]
+    }
+]
