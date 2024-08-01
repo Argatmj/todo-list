@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script defer src="main.js"></script></head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../src/assets/logo.svg" alt="logo">
+            <h1>Todo List</h1>
+        </div>
+            <button id="add-button">
+                <img src="../src/assets/add.svg" alt="add">
+                Add Task
+            </button>
+    </header>
+    <div class="main">
+        <div class="sidebar">
+            <button id="home">
+                <img src="../src/assets/home.svg" alt="home">
+                Home
+            </button>
+            <button id="today">
+                <img src="../src/assets/today.svg" alt="Today">
+                Today
+            </button>
+            <button id="week">
+                <img src="../src/assets/week.svg" alt="This Week">
+                This Week
+            </button>
+            <p>Projects</p>
+            <div class="projects">
+                <button id="add-project">
+                    <img src="../src/assets/plus.svg" alt="Add">
+                    <p>Add Project</p>
+                </button>
+            </div>
+        </div>
+        <div class="content">
+            <div id="content-title">
+                Todo's
+            </div>
+            <hr>
+            <div class="tasks">
+            </div>
+        </div>
+    </div>
+
+    <dialog id="project-dialog">
+      <form id="project-form"action="post">
+        <p>Add New Project</p>
+        <input type="text" placeholder="Project Name" id="project-name" required>
+        <button id="submit" type="submit">Submit</button required>
+      </form>
+    </dialog>
+
+    <dialog id="info-dialog">
+    </dialog>
+
+    <dialog id="task-dialog">
+        <form id="add-form" action="post">
+            <p class="dialog-title">Add New Task</p>
+            <input type="text" placeholder="Task Name" id="task-name" required>
+            <input type="text" placeholder="Description" id="task-desc" required>
+            
+            <div class="priority-group" >
+                <p>Priority:</p>
+                <label>
+                    <input type="radio" name="priority" value="High" required> High
+                </label>
+                <label>
+                    <input type="radio" name="priority" value="Medium"> Medium
+                </label>
+                <label>
+                    <input type="radio" name="priority" value="Low"> Low
+                </label>
+            </div>
+            
+            <input type="date" id="task-date" required>
+            
+            <select id="task-projects" required>
+            </select>
+            
+            <button id="add" type="submit">Add</button>
+            <button type="button" id="close-task-dialog">Cancel</button>
+        </form>
+    </dialog>
+</body>
+</html>
